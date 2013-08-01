@@ -19,6 +19,9 @@ class MinifyHTMLMiddleware(object):
             raise MiddlewareNotUsed
 
     def process_response(self, request, response):
+        if request.path.startswith('/admin/'):
+            return response
+
         if response.has_header('Content-Type') and 'text/html' in response['Content-Type']:
             try:
                 response.content = minify_html(response.content.strip())
